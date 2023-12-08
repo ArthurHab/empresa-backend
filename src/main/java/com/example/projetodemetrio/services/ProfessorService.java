@@ -19,7 +19,7 @@ import com.example.projetodemetrio.repositories.EnderecoRepository;
 public class ProfessorService {
 
     @Autowired
-    ProfessorRepository ProfessorRepository;
+    ProfessorRepository professorRepository;
 
     @Autowired
     EnderecoRepository enderecoRepository;
@@ -28,7 +28,15 @@ public class ProfessorService {
     private Mensagem mensagem;
 
     public ResponseEntity<?> professorsCadastrados(){
-        return ResponseEntity.status(HttpStatus.OK).body(ProfessorRepository.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(professorRepository.findAll());
+    }
+
+    public ResponseEntity<?> professorPorId(Long id){
+        if(professorRepository.existsById(id) == false){
+            mensagem.setMensagem("professor não encontrado!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(professorRepository.findById(id));
     }
 
     public ResponseEntity<?> professorCadastrar(ProfessorRegisterDTO ProfessorRegisterDTO){
@@ -40,14 +48,14 @@ public class ProfessorService {
         Professor novoProfessor = new Professor();
         BeanUtils.copyProperties(ProfessorRegisterDTO, novoProfessor);
         novoProfessor.setEndereco(endereco.get());
-        return ResponseEntity.status(HttpStatus.CREATED).body(ProfessorRepository.save(novoProfessor));
+        return ResponseEntity.status(HttpStatus.CREATED).body(professorRepository.save(novoProfessor));
     }
 
     //falta fazer o alterar e o encontrar Professor por ID
 
     public ResponseEntity<?> professorDeletar(Long id){
-        if(ProfessorRepository.existsById(id)){
-            ProfessorRepository.deleteById(id);
+        if(professorRepository.existsById(id)){
+            professorRepository.deleteById(id);
             mensagem.setMensagem("Professor excluído com sucesso!");
             return ResponseEntity.status(HttpStatus.OK).body(mensagem);
         }

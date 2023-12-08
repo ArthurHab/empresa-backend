@@ -19,20 +19,25 @@ import com.example.projetodemetrio.services.EnderecoService;
 public class EnderecoController {
     
     @Autowired
-    EnderecoService EnderecoService;
+    EnderecoService enderecoService;
 
     @GetMapping("")
     public ResponseEntity<?> EnderecosCadastrados(){
-        return EnderecoService.enderecosCadastrados();
+        return enderecoService.enderecosCadastrados();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> enderecoPorId(@PathVariable Long id){
+        return enderecoService.enderecoPorId(id);
     }
 
     @PostMapping("")
     public ResponseEntity<?> cadastrarEndereco(@RequestBody @Validated EnderecoDTO EnderecoDTO){
-        return EnderecoService.enderecosCadastrar(EnderecoDTO);
+        return enderecoService.enderecosCadastrar(EnderecoDTO);
     }
 
     @DeleteMapping("")
     public ResponseEntity<?> deletarEndereco(@PathVariable Long id){
-        return EnderecoService.enderecosDeletar(id);
+        return enderecoService.enderecosDeletar(id);
     }
 }

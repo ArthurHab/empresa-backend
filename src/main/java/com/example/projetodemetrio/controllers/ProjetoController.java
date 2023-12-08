@@ -26,6 +26,11 @@ public class ProjetoController {
         return projetoService.ProjetosCadastrados();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> projetoPorId(@PathVariable Long id){
+        return projetoService.projetoPorId(id);
+    }
+
     @PostMapping("")
     public ResponseEntity<?> cadastrarProjeto(@RequestBody @Validated ProjetoDTO projetoDTO){
         return projetoService.ProjetosCadastrar(projetoDTO);

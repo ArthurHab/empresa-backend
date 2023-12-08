@@ -19,20 +19,25 @@ import com.example.projetodemetrio.services.ProfessorService;
 public class ProfessorController {
     
     @Autowired
-    ProfessorService ProfessorService;
+    ProfessorService professorService;
 
     @GetMapping("")
     public ResponseEntity<?> professorsCadastrados(){
-        return ProfessorService.professorsCadastrados();
+        return professorService.professorsCadastrados();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> professorPorId(@PathVariable Long id){
+        return professorService.professorPorId(id);
     }
 
     @PostMapping("")
     public ResponseEntity<?> cadastrarProfessor(@RequestBody @Validated ProfessorRegisterDTO ProfessorRegisterDTO){
-        return ProfessorService.professorCadastrar(ProfessorRegisterDTO);
+        return professorService.professorCadastrar(ProfessorRegisterDTO);
     }
 
     @DeleteMapping("")
     public ResponseEntity<?> deletarProfessor(@PathVariable Long id){
-        return ProfessorService.professorDeletar(id);
+        return professorService.professorDeletar(id);
     }
 }

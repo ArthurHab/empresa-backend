@@ -31,6 +31,14 @@ public class AlunoService {
         return ResponseEntity.status(HttpStatus.OK).body(alunoRepository.findAll());
     }
 
+    public ResponseEntity<?> alunoPorId(Long id){
+        if(alunoRepository.existsById(id) == false){
+            mensagem.setMensagem("Aluno não encontrado!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(alunoRepository.findById(id));
+    }
+
     public ResponseEntity<?> alunoCadastrar(AlunoRegisterDTO alunoRegisterDTO){
         if(enderecoRepository.existsById(alunoRegisterDTO.endereco()) == false){
             mensagem.setMensagem("Esse endereço não está cadastrado no sistema!");
@@ -42,8 +50,6 @@ public class AlunoService {
         novoAluno.setEndereco(endereco.get());
         return ResponseEntity.status(HttpStatus.CREATED).body(alunoRepository.save(novoAluno));
     }
-
-    //falta fazer o alterar e o encontrar aluno por ID
 
     public ResponseEntity<?> alunoDeletar(Long id){
         if(alunoRepository.existsById(id)){

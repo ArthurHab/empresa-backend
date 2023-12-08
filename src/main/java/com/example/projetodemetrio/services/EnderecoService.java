@@ -24,6 +24,14 @@ public class EnderecoService {
         return ResponseEntity.status(HttpStatus.OK).body(enderecoRepository.findAll());
     }
 
+    public ResponseEntity<?> enderecoPorId(Long id){
+        if(enderecoRepository.existsById(id) == false){
+            mensagem.setMensagem("endereco não encontrado!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(enderecoRepository.findById(id));
+    }
+
     public ResponseEntity<?> enderecosCadastrar(EnderecoDTO enderecoDTO){
         Endereco novoEndereco = new Endereco();
         BeanUtils.copyProperties(enderecoDTO, novoEndereco);

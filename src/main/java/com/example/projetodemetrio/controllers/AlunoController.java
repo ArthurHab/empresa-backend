@@ -19,20 +19,25 @@ import com.example.projetodemetrio.services.AlunoService;
 public class AlunoController {
     
     @Autowired
-    AlunoService AlunoService;
+    AlunoService alunoService;
 
     @GetMapping("")
-    public ResponseEntity<?> AlunosCadastrados(){
-        return AlunoService.alunosCadastrados();
+    public ResponseEntity<?> alunosCadastrados(){
+        return alunoService.alunosCadastrados();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> alunoPorId(@PathVariable Long id){
+        return alunoService.alunoPorId(id);
     }
 
     @PostMapping("")
     public ResponseEntity<?> cadastrarAluno(@RequestBody @Validated AlunoRegisterDTO alunoRegisterDTO){
-        return AlunoService.alunoCadastrar(alunoRegisterDTO);
+        return alunoService.alunoCadastrar(alunoRegisterDTO);
     }
 
     @DeleteMapping("")
     public ResponseEntity<?> deletarAluno(@PathVariable Long id){
-        return AlunoService.alunoDeletar(id);
+        return alunoService.alunoDeletar(id);
     }
 }

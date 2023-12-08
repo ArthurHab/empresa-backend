@@ -15,24 +15,32 @@ import com.example.projetodemetrio.repositories.ProjetoRepository;
 public class ProjetoService {
     
     @Autowired
-    ProjetoRepository ProjetoRepository;
+    ProjetoRepository projetoRepository;
 
     @Autowired
     private Mensagem mensagem;
 
     public ResponseEntity<?> ProjetosCadastrados(){
-        return ResponseEntity.status(HttpStatus.OK).body(ProjetoRepository.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(projetoRepository.findAll());
+    }
+
+    public ResponseEntity<?> projetoPorId(Long id){
+        if(projetoRepository.existsById(id) == false){
+            mensagem.setMensagem("projeto não encontrado!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(projetoRepository.findById(id));
     }
 
     public ResponseEntity<?> ProjetosCadastrar(ProjetoDTO ProjetoDTO){
         Projeto novoProjeto = new Projeto();
         BeanUtils.copyProperties(ProjetoDTO, novoProjeto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ProjetoRepository.save(novoProjeto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(projetoRepository.save(novoProjeto));
     }
 
     public ResponseEntity<?> ProjetosDeletar(Long id){
-        if(ProjetoRepository.existsById(id) == true){
-            ProjetoRepository.deleteById(id);
+        if(projetoRepository.existsById(id) == true){
+            projetoRepository.deleteById(id);
             mensagem.setMensagem("Projeto excluído com sucesso!");
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(mensagem);
         }
