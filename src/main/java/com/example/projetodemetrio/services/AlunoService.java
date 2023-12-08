@@ -1,5 +1,6 @@
 package com.example.projetodemetrio.services;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.projetodemetrio.dtos.AlunoAlterarDTO;
 import com.example.projetodemetrio.dtos.AlunoRegisterDTO;
 import com.example.projetodemetrio.models.Aluno;
 import com.example.projetodemetrio.models.Endereco;
@@ -49,6 +51,18 @@ public class AlunoService {
         BeanUtils.copyProperties(alunoRegisterDTO, novoAluno);
         novoAluno.setEndereco(endereco.get());
         return ResponseEntity.status(HttpStatus.CREATED).body(alunoRepository.save(novoAluno));
+    }
+
+    public ResponseEntity<?> alterarDadosAluno(AlunoAlterarDTO alunoAlterarDTO){
+        if(alunoRepository.existsById(alunoAlterarDTO.id()) == true){
+            Aluno alunoAlterado = new Aluno();
+            BeanUtils.copyProperties( alunoAlterarDTO, alunoAlterado);
+            alunoAlterado.setId(alunoAlterarDTO.id());
+            alunoAlterado.setEndereco(enderecoRepository.findById(alunoAlterarDTO.endereco()).get());
+            return ResponseEntity.status(HttpStatus.OK).body(alunoRepository.save(alunoAlterado));
+        }
+        mensagem.setMensagem("Id não encontrado!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
     }
 
     public ResponseEntity<?> alunoDeletar(Long id){

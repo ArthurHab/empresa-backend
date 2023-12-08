@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.projetodemetrio.dtos.EnderecoAlterarDTO;
 import com.example.projetodemetrio.dtos.EnderecoDTO;
 import com.example.projetodemetrio.models.Endereco;
 import com.example.projetodemetrio.models.Mensagem;
@@ -37,6 +38,16 @@ public class EnderecoService {
         BeanUtils.copyProperties(enderecoDTO, novoEndereco);
         return ResponseEntity.status(HttpStatus.CREATED).body(enderecoRepository.save(novoEndereco));
     }
+
+    public ResponseEntity<?> alterarDadosEndereco(EnderecoAlterarDTO enderecoAlterarDTO){
+        if(enderecoRepository.existsById(enderecoAlterarDTO.id()) == true){
+            Endereco enderecoAlterado = new Endereco();
+            BeanUtils.copyProperties( enderecoAlterarDTO, enderecoAlterado);
+            return ResponseEntity.status(HttpStatus.OK).body(enderecoRepository.save(enderecoAlterado));
+        }
+        mensagem.setMensagem("Endereço não encontrado!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+    }    
 
     public ResponseEntity<?> enderecosDeletar(Long id){
         if(enderecoRepository.existsById(id) == true){

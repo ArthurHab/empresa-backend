@@ -6,9 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.projetodemetrio.dtos.ProfessorAlterarDTO;
+import com.example.projetodemetrio.dtos.ProjetoAlterarDTO;
 import com.example.projetodemetrio.dtos.ProjetoDTO;
 import com.example.projetodemetrio.models.Projeto;
 import com.example.projetodemetrio.models.Mensagem;
+import com.example.projetodemetrio.models.Professor;
 import com.example.projetodemetrio.repositories.ProjetoRepository;
 
 @Service
@@ -37,6 +40,16 @@ public class ProjetoService {
         BeanUtils.copyProperties(ProjetoDTO, novoProjeto);
         return ResponseEntity.status(HttpStatus.CREATED).body(projetoRepository.save(novoProjeto));
     }
+
+    public ResponseEntity<?> alterarDadosProjeto(ProjetoAlterarDTO projetoAlterarDTO){
+        if(projetoRepository.existsById(projetoAlterarDTO.id()) == true){
+            Projeto projetoAlterado = new Projeto();
+            BeanUtils.copyProperties( projetoAlterarDTO, projetoAlterado);
+            return ResponseEntity.status(HttpStatus.OK).body(projetoRepository.save(projetoAlterado));
+        }
+        mensagem.setMensagem("Professor não encontrado!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+    }    
 
     public ResponseEntity<?> ProjetosDeletar(Long id){
         if(projetoRepository.existsById(id) == true){

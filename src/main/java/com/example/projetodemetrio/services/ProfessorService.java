@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.projetodemetrio.dtos.EnderecoAlterarDTO;
+import com.example.projetodemetrio.dtos.ProfessorAlterarDTO;
 import com.example.projetodemetrio.dtos.ProfessorRegisterDTO;
 import com.example.projetodemetrio.models.Professor;
 import com.example.projetodemetrio.models.Endereco;
@@ -51,7 +53,16 @@ public class ProfessorService {
         return ResponseEntity.status(HttpStatus.CREATED).body(professorRepository.save(novoProfessor));
     }
 
-    //falta fazer o alterar e o encontrar Professor por ID
+    public ResponseEntity<?> alterarDadosProfessor(ProfessorAlterarDTO professorAlterarDTO){
+        if(professorRepository.existsById(professorAlterarDTO.id()) == true){
+            Professor professorAlterado = new Professor();
+            BeanUtils.copyProperties( professorAlterarDTO, professorAlterado);
+            professorAlterado.setEndereco(enderecoRepository.findById(professorAlterarDTO.endereco()).get());
+            return ResponseEntity.status(HttpStatus.OK).body(professorRepository.save(professorAlterado));
+        }
+        mensagem.setMensagem("Professor não encontrado!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+    }    
 
     public ResponseEntity<?> professorDeletar(Long id){
         if(professorRepository.existsById(id)){
