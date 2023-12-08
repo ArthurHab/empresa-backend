@@ -43,7 +43,7 @@ public class EnderecoController {
         return enderecoService.alterarDadosEndereco(enderecoAlterarDTO);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarEndereco(@PathVariable Long id){
         return enderecoService.enderecosDeletar(id);
     }

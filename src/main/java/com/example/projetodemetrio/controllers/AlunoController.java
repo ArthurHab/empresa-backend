@@ -43,7 +43,7 @@ public class AlunoController {
         return alunoService.alterarDadosAluno(alunoAlterarDTO);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarAluno(@PathVariable Long id){
         return alunoService.alunoDeletar(id);
     }

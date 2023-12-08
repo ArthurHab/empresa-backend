@@ -43,7 +43,7 @@ public class ProjetoController {
         return projetoService.alterarDadosProjeto(projetoAlterarDTO);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarProjeto(@PathVariable Long id){
         return projetoService.ProjetosDeletar(id);
     }
