@@ -6,12 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.projetodemetrio.dtos.ProfessorAlterarDTO;
 import com.example.projetodemetrio.dtos.ProjetoAlterarDTO;
 import com.example.projetodemetrio.dtos.ProjetoDTO;
 import com.example.projetodemetrio.models.Projeto;
 import com.example.projetodemetrio.models.Mensagem;
-import com.example.projetodemetrio.models.Professor;
 import com.example.projetodemetrio.repositories.ProjetoRepository;
 
 @Service
