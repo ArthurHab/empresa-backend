@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.projetodemetrio.dtos.DeletarIdDTO;
 import com.example.projetodemetrio.dtos.ProfessorAlterarDTO;
 import com.example.projetodemetrio.dtos.ProfessorRegisterDTO;
 import com.example.projetodemetrio.models.Professor;
@@ -64,9 +63,9 @@ public class ProfessorService {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
     }    
 
-    public ResponseEntity<?> professorDeletar(DeletarIdDTO deletarIdDTO){
-        if(professorRepository.existsById(deletarIdDTO.id())){
-            professorRepository.deleteById(deletarIdDTO.id());
+    public ResponseEntity<?> professorDeletar(Long id){
+        if(professorRepository.existsById(id)){
+            professorRepository.deleteById(id);
             mensagem.setMensagem("Professor excluído com sucesso!");
             return ResponseEntity.status(HttpStatus.OK).body(mensagem);
         }

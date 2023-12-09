@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.projetodemetrio.dtos.AlunoAlterarDTO;
 import com.example.projetodemetrio.dtos.AlunoRegisterDTO;
-import com.example.projetodemetrio.dtos.DeletarIdDTO;
 import com.example.projetodemetrio.models.Aluno;
 import com.example.projetodemetrio.models.Endereco;
 import com.example.projetodemetrio.models.Mensagem;
@@ -65,10 +64,10 @@ public class AlunoService {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
     }
 
-    public ResponseEntity<?> alunoDeletar(DeletarIdDTO deletarIdDTO){
+    public ResponseEntity<?> alunoDeletar(Long id){
 
-        if(alunoRepository.existsById(deletarIdDTO.id())){
-            alunoRepository.deleteById(deletarIdDTO.id());
+        if(alunoRepository.existsById(id)){
+            alunoRepository.deleteById(id);
             mensagem.setMensagem("Aluno excluído com sucesso!");
             return ResponseEntity.status(HttpStatus.OK).body(mensagem);
         }

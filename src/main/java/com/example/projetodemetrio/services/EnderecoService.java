@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.projetodemetrio.dtos.DeletarIdDTO;
 import com.example.projetodemetrio.dtos.EnderecoAlterarDTO;
 import com.example.projetodemetrio.dtos.EnderecoDTO;
 import com.example.projetodemetrio.models.Endereco;
@@ -50,11 +49,11 @@ public class EnderecoService {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
     }    
 
-    public ResponseEntity<?> enderecosDeletar(DeletarIdDTO deletarIdDTO){
+    public ResponseEntity<?> enderecosDeletar(Long id){
 
         try {
-            if(enderecoRepository.existsById(deletarIdDTO.id()) == true){
-                enderecoRepository.deleteById(deletarIdDTO.id());
+            if(enderecoRepository.existsById(id) == true){
+                enderecoRepository.deleteById(id);
                 mensagem.setMensagem("Endereço excluído com sucesso!");
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(mensagem);
             }

@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.projetodemetrio.dtos.DeletarIdDTO;
 import com.example.projetodemetrio.dtos.ProjetoAlterarDTO;
 import com.example.projetodemetrio.dtos.ProjetoDTO;
 import com.example.projetodemetrio.models.Projeto;
@@ -50,9 +49,9 @@ public class ProjetoService {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
     }    
 
-    public ResponseEntity<?> ProjetosDeletar(DeletarIdDTO deletarIdDTO){
-        if(projetoRepository.existsById(deletarIdDTO.id()) == true){
-            projetoRepository.deleteById(deletarIdDTO.id());
+    public ResponseEntity<?> ProjetosDeletar(Long id){
+        if(projetoRepository.existsById(id) == true){
+            projetoRepository.deleteById(id);
             mensagem.setMensagem("Projeto excluído com sucesso!");
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(mensagem);
         }

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.projetodemetrio.dtos.DeletarIdDTO;
 import com.example.projetodemetrio.dtos.ProjetoAlterarDTO;
 import com.example.projetodemetrio.dtos.ProjetoDTO;
 import com.example.projetodemetrio.services.ProjetoService;
@@ -41,13 +40,13 @@ public class ProjetoController {
         return projetoService.ProjetosCadastrar(projetoDTO);
     }
 
-        @PutMapping("")
+    @PutMapping("")
     public ResponseEntity<?> alterarProfessor(@RequestBody @Validated ProjetoAlterarDTO projetoAlterarDTO){
         return projetoService.alterarDadosProjeto(projetoAlterarDTO);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deletarProjeto(DeletarIdDTO deletarIdDTO){
-        return projetoService.ProjetosDeletar(deletarIdDTO);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarProjeto(@PathVariable Long id){
+        return projetoService.ProjetosDeletar(id);
     }
 }

@@ -5,7 +5,7 @@ public record ProjetoAlterarDTO(
     String tituloProjeto,
 	String areaProjeto,
 	String resumo,
-	String idProfessor,
-	String idAluno,
+	Long idProfessor,
+	Long idAluno,
 	String url
 ) {}

@@ -4,7 +4,7 @@ public record ProjetoDTO(
 	String tituloProjeto,
 	String areaProjeto,
 	String resumo,
-	String idProfessor,
-	String idAluno,
+	Long idProfessor,
+	Long idAluno,
 	String url
 ) {}

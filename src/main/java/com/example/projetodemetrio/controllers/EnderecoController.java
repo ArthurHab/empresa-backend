@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.projetodemetrio.dtos.DeletarIdDTO;
 import com.example.projetodemetrio.dtos.EnderecoAlterarDTO;
 import com.example.projetodemetrio.dtos.EnderecoDTO;
 import com.example.projetodemetrio.services.EnderecoService;
@@ -46,8 +45,8 @@ public class EnderecoController {
         return enderecoService.alterarDadosEndereco(enderecoAlterarDTO);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deletarEndereco(DeletarIdDTO deletarIdDTO){
-        return enderecoService.enderecosDeletar(deletarIdDTO);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarEndereco(@PathVariable Long id){
+        return enderecoService.enderecosDeletar(id);
     }
 }

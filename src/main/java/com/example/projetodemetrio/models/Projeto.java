@@ -28,10 +28,10 @@ public class Projeto {
 	private String resumo;
 
     @Column(name = "id_professor")
-	private String idProfessor;
+	private Long idProfessor;
 
     @Column(name = "id_aluno")
-	private String idAluno;
+	private Long idAluno;
 
     @Column(name = "url")
 	private String url;

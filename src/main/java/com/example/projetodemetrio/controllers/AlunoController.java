@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.projetodemetrio.dtos.AlunoAlterarDTO;
 import com.example.projetodemetrio.dtos.AlunoRegisterDTO;
-import com.example.projetodemetrio.dtos.DeletarIdDTO;
 import com.example.projetodemetrio.services.AlunoService;
 
 @RestController
@@ -46,8 +45,8 @@ public class AlunoController {
         return alunoService.alterarDadosAluno(alunoAlterarDTO);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deletarAluno(@RequestBody DeletarIdDTO deletarIdDTO){
-        return alunoService.alunoDeletar(deletarIdDTO);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarAluno(@PathVariable Long id){
+        return alunoService.alunoDeletar(id);
     }
 }

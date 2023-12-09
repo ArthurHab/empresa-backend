@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.projetodemetrio.dtos.DeletarIdDTO;
 import com.example.projetodemetrio.dtos.ProfessorAlterarDTO;
 import com.example.projetodemetrio.dtos.ProfessorRegisterDTO;
 import com.example.projetodemetrio.services.ProfessorService;
@@ -46,8 +45,8 @@ public class ProfessorController {
         return professorService.alterarDadosProfessor(professorAlterarDTO);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deletarProfessor(DeletarIdDTO deletarIdDTO){
-        return professorService.professorDeletar(deletarIdDTO);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarProfessor(@PathVariable Long id){
+        return professorService.professorDeletar(id);
     }
 }
