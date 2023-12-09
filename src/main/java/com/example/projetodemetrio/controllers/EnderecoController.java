@@ -3,6 +3,7 @@ package com.example.projetodemetrio.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.projetodemetrio.dtos.DeletarIdDTO;
 import com.example.projetodemetrio.dtos.EnderecoAlterarDTO;
 import com.example.projetodemetrio.dtos.EnderecoDTO;
 import com.example.projetodemetrio.services.EnderecoService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("endereco")
 public class EnderecoController {
     
@@ -43,8 +46,8 @@ public class EnderecoController {
         return enderecoService.alterarDadosEndereco(enderecoAlterarDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarEndereco(@PathVariable Long id){
-        return enderecoService.enderecosDeletar(id);
+    @DeleteMapping("")
+    public ResponseEntity<?> deletarEndereco(DeletarIdDTO deletarIdDTO){
+        return enderecoService.enderecosDeletar(deletarIdDTO);
     }
 }
