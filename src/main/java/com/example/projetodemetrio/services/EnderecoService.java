@@ -50,12 +50,18 @@ public class EnderecoService {
     }    
 
     public ResponseEntity<?> enderecosDeletar(Long id){
-        if(enderecoRepository.existsById(id) == true){
-            enderecoRepository.deleteById(id);
-            mensagem.setMensagem("Veículo excluído com sucesso!");
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(mensagem);
+
+        try {
+            if(enderecoRepository.existsById(id) == true){
+                enderecoRepository.deleteById(id);
+                mensagem.setMensagem("Endereço excluído com sucesso!");
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(mensagem);
+            }
+            mensagem.setMensagem("Emdereço não encontrado!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        } catch (Exception e) {
+            mensagem.setMensagem("Somente é possível deletar um endereço depois de deletar todos os dados que possuem vínculo com ele!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
         }
-        mensagem.setMensagem("Veículo não encontrado!");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
     }
 }

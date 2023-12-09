@@ -65,13 +65,16 @@ public class AlunoService {
     }
 
     public ResponseEntity<?> alunoDeletar(Long id){
+
         if(alunoRepository.existsById(id)){
             alunoRepository.deleteById(id);
             mensagem.setMensagem("Aluno excluído com sucesso!");
             return ResponseEntity.status(HttpStatus.OK).body(mensagem);
         }
+        
         mensagem.setMensagem("Aluno não encontrado!");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+
     }
 
 }
