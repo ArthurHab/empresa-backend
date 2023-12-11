@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.example.projetodemetrio.dtos.EnderecoAlterarDTO;
 import com.example.projetodemetrio.dtos.EnderecoDTO;
 import com.example.projetodemetrio.models.Endereco;
-import com.example.projetodemetrio.models.Mensagem;
 import com.example.projetodemetrio.repositories.EnderecoRepository;
 
 @Service
@@ -18,17 +17,13 @@ public class EnderecoService {
     @Autowired
     EnderecoRepository enderecoRepository;
 
-    @Autowired
-    private Mensagem mensagem;
-
     public ResponseEntity<?> enderecosCadastrados(){
         return ResponseEntity.status(HttpStatus.OK).body(enderecoRepository.findAll());
     }
 
     public ResponseEntity<?> enderecoPorId(Long id){
         if(enderecoRepository.existsById(id) == false){
-            mensagem.setMensagem("endereco não encontrado!");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereco não encontrado!");
         }
         return ResponseEntity.status(HttpStatus.OK).body(enderecoRepository.findById(id));
     }
@@ -45,8 +40,7 @@ public class EnderecoService {
             BeanUtils.copyProperties( enderecoAlterarDTO, enderecoAlterado);
             return ResponseEntity.status(HttpStatus.OK).body(enderecoRepository.save(enderecoAlterado));
         }
-        mensagem.setMensagem("Endereço não encontrado!");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço não encontrado!");
     }    
 
     public ResponseEntity<?> enderecosDeletar(Long id){
@@ -54,14 +48,12 @@ public class EnderecoService {
         try {
             if(enderecoRepository.existsById(id) == true){
                 enderecoRepository.deleteById(id);
-                mensagem.setMensagem("Endereço excluído com sucesso!");
-                return ResponseEntity.status(HttpStatus.ACCEPTED).body(mensagem);
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body("Endereço excluído com sucesso!");
             }
-            mensagem.setMensagem("Emdereço não encontrado!");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+  
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Endereço não encontrado!");
         } catch (Exception e) {
-            mensagem.setMensagem("Somente é possível deletar um endereço depois de deletar todos os dados que possuem vínculo com ele!");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Somente é possível deletar um endereço depois de deletar todos os dados que possuem vínculo com ele!");
         }
     }
 }

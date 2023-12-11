@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.example.projetodemetrio.dtos.ProjetoAlterarDTO;
 import com.example.projetodemetrio.dtos.ProjetoDTO;
 import com.example.projetodemetrio.models.Projeto;
-import com.example.projetodemetrio.models.Mensagem;
 import com.example.projetodemetrio.repositories.ProjetoRepository;
 
 @Service
@@ -18,17 +17,13 @@ public class ProjetoService {
     @Autowired
     ProjetoRepository projetoRepository;
 
-    @Autowired
-    private Mensagem mensagem;
-
     public ResponseEntity<?> ProjetosCadastrados(){
         return ResponseEntity.status(HttpStatus.OK).body(projetoRepository.findAll());
     }
 
     public ResponseEntity<?> projetoPorId(Long id){
         if(projetoRepository.existsById(id) == false){
-            mensagem.setMensagem("projeto não encontrado!");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("projeto não encontrado!");
         }
         return ResponseEntity.status(HttpStatus.OK).body(projetoRepository.findById(id));
     }
@@ -45,17 +40,14 @@ public class ProjetoService {
             BeanUtils.copyProperties( projetoAlterarDTO, projetoAlterado);
             return ResponseEntity.status(HttpStatus.OK).body(projetoRepository.save(projetoAlterado));
         }
-        mensagem.setMensagem("Professor não encontrado!");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Professor não encontrado!");
     }    
 
     public ResponseEntity<?> ProjetosDeletar(Long id){
         if(projetoRepository.existsById(id) == true){
             projetoRepository.deleteById(id);
-            mensagem.setMensagem("Projeto excluído com sucesso!");
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(mensagem);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Projeto excluído com sucesso!");
         }
-        mensagem.setMensagem("Projeto não encontrado!");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Projeto não encontrado!");
     }
 }

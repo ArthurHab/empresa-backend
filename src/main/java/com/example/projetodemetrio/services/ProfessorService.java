@@ -12,7 +12,6 @@ import com.example.projetodemetrio.dtos.ProfessorAlterarDTO;
 import com.example.projetodemetrio.dtos.ProfessorRegisterDTO;
 import com.example.projetodemetrio.models.Professor;
 import com.example.projetodemetrio.models.Endereco;
-import com.example.projetodemetrio.models.Mensagem;
 import com.example.projetodemetrio.repositories.ProfessorRepository;
 import com.example.projetodemetrio.repositories.EnderecoRepository;
 
@@ -25,25 +24,20 @@ public class ProfessorService {
     @Autowired
     EnderecoRepository enderecoRepository;
 
-    @Autowired
-    private Mensagem mensagem;
-
     public ResponseEntity<?> professorsCadastrados(){
         return ResponseEntity.status(HttpStatus.OK).body(professorRepository.findAll());
     }
 
     public ResponseEntity<?> professorPorId(Long id){
         if(professorRepository.existsById(id) == false){
-            mensagem.setMensagem("professor não encontrado!");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("professor não encontrado!");
         }
         return ResponseEntity.status(HttpStatus.OK).body(professorRepository.findById(id));
     }
 
     public ResponseEntity<?> professorCadastrar(ProfessorRegisterDTO ProfessorRegisterDTO){
         if(enderecoRepository.existsById(ProfessorRegisterDTO.endereco()) == false){
-            mensagem.setMensagem("Esse endereço não está cadastrado no sistema!");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Esse endereço não está cadastrado no sistema!");
         }
         Optional<Endereco> endereco = enderecoRepository.findById(ProfessorRegisterDTO.endereco());
         Professor novoProfessor = new Professor();
@@ -59,18 +53,15 @@ public class ProfessorService {
             professorAlterado.setEndereco(enderecoRepository.findById(professorAlterarDTO.endereco()).get());
             return ResponseEntity.status(HttpStatus.OK).body(professorRepository.save(professorAlterado));
         }
-        mensagem.setMensagem("Professor não encontrado!");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Professor não encontrado!");
     }    
 
     public ResponseEntity<?> professorDeletar(Long id){
         if(professorRepository.existsById(id)){
             professorRepository.deleteById(id);
-            mensagem.setMensagem("Professor excluído com sucesso!");
-            return ResponseEntity.status(HttpStatus.OK).body(mensagem);
+            return ResponseEntity.status(HttpStatus.OK).body("Professor excluído com sucesso!");
         }
-        mensagem.setMensagem("Professor não encontrado!");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(mensagem);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Professor não encontrado!");
     }
 
 }
