@@ -1,6 +1,7 @@
 package com.example.projetodemetrio.models;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,32 +23,32 @@ public class NotaFiscal {
     private Long id;
 
     @Column(name = "numero_nota_fiscal")
-    private Long numero_nota_fiscal;
+    private Long numeroNotaFiscal;
 
     @Column(name = "nome_razao_social")
-    private String nome_razao_social;
+    private String nomeRazaoSocial;
 
     @Column(name = "cnpj")
     private String cnpj;
 
     @Column(name = "data_de_emissao")
-    private Date data_de_emissao;
+    private Date dataDeEmissao;
 
     @Column(name = "data_de_entrada_saida")
-    private Date data_de_entrada_saida;
+    private Date dataDeEntradaSaida;
 
     @Column(name = "descricao_produto_servico")
-    private String descricao_produto_servico;
+    private String descricaoProdutoServico;
 
     @Column(name = "valor_nota_fiscal")
-    private Float valor_nota_fiscal;
+    private Float valorNotaFiscal;
 
     @Column(name = "ativo")
     private Boolean ativo;
 
     @Column(name = "updated_at")
-    private Date updated_at;
+    private LocalDateTime  updatedAt;
 
     @Column(name = "created_at")
-    private Date created_at;
+    private LocalDateTime  createdAt;
 }

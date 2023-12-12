@@ -1,5 +1,7 @@
 package com.example.projetodemetrio.services;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,18 +31,23 @@ public class NotaFiscalService {
     }
 
     public ResponseEntity<?> notaFiscalsCadastrar(NotaFiscalRecordDTO NotaFiscalDTO){
-        // Lembrar de alterar a data do created_at em toda alteração
-        //Lembrar de verificar se a nota fiscal já existe com o número informado!
-        NotaFiscal novoNotaFiscal = new NotaFiscal();
-        BeanUtils.copyProperties(NotaFiscalDTO, novoNotaFiscal);
-        return ResponseEntity.status(HttpStatus.CREATED).body(notaFiscalRepository.save(novoNotaFiscal));
+        if(notaFiscalRepository.existsByNumeroNotaFiscal(NotaFiscalDTO.numeroNotaFiscal()) == false){
+            NotaFiscal novoNotaFiscal = new NotaFiscal();
+            BeanUtils.copyProperties(NotaFiscalDTO, novoNotaFiscal);
+            LocalDateTime dataHoraAtual = LocalDateTime.now();
+            novoNotaFiscal.setCreatedAt(dataHoraAtual);
+            return ResponseEntity.status(HttpStatus.CREATED).body(notaFiscalRepository.save(novoNotaFiscal));
+        }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nº de nota fiscal já cadastrado");
+
     }
 
     public ResponseEntity<?> alterarDadosNotaFiscal(NotaFiscalAlterarRecordDTO NotaFiscalAlterarDTO){
-        // Lembrar de alterar a data do updated_at em toda alteração
         if(notaFiscalRepository.existsById(NotaFiscalAlterarDTO.id()) == true){
             NotaFiscal NotaFiscalAlterado = new NotaFiscal();
             BeanUtils.copyProperties( NotaFiscalAlterarDTO, NotaFiscalAlterado);
+            LocalDateTime dataHoraAtual = LocalDateTime.now();
+            NotaFiscalAlterado.setUpdatedAt(dataHoraAtual);
             return ResponseEntity.status(HttpStatus.OK).body(notaFiscalRepository.save(NotaFiscalAlterado));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nota fiscal não encontrado!");
